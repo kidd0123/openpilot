@@ -482,11 +482,24 @@ static safety_config hyundai_legacy_init(uint16_t param) {
     HYUNDAI_SCC11_ADDR_CHECK(0)
   };
 
+  // non-SCC cars have no radar, so SCC11/SCC12 are never on the bus; cruise state comes from EMS16
+  static RxCheck hyundai_legacy_non_scc_rx_checks[] = {
+    HYUNDAI_COMMON_RX_CHECKS(true)
+  };
+
   hyundai_common_init(param);
   hyundai_legacy = true;
   hyundai_longitudinal = false;
   hyundai_camera_scc = false;
-  return BUILD_SAFETY_CFG(hyundai_legacy_rx_checks, HYUNDAI_TX_MSGS);
+
+  safety_config ret;
+  SET_TX_MSGS(HYUNDAI_TX_MSGS, ret);
+  if (hyundai_non_scc) {
+    SET_RX_CHECKS(hyundai_legacy_non_scc_rx_checks, ret);
+  } else {
+    SET_RX_CHECKS(hyundai_legacy_rx_checks, ret);
+  }
+  return ret;
 }
 
 const safety_hooks hyundai_hooks = {

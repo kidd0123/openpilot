@@ -61,7 +61,12 @@ class CarStateExt:
                          "CF_Lvr_CruiseSet"
       ret.cruiseState.available = cp.vl[cruise_msg][cruise_available_sig] != 0
       ret.cruiseState.enabled = cp.vl[cruise_msg][cruise_enabled_sig] != 0
-      ret.cruiseState.speed = cp.vl[cruise_speed_msg][cruise_speed_sig] * speed_conv
+      if self.CP.flags & HyundaiFlags.TCU_GEARS and not self.CP.flags & (HyundaiFlags.EV | HyundaiFlags.HYBRID):
+        # DCT cars (e.g. Veloster) do not send LVR12, so the stock cruise set speed is not available on the bus.
+        # Reading a message that never arrives would mark the CAN parser invalid.
+        ret.cruiseState.speed = 0.
+      else:
+        ret.cruiseState.speed = cp.vl[cruise_speed_msg][cruise_speed_sig] * speed_conv
       ret.cruiseState.standstill = False
       ret.cruiseState.nonAdaptive = False
 

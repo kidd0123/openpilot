@@ -550,6 +550,19 @@ class TestHyundaiNonSCCSafety(TestHyundaiSafety):
     self.assertTrue(self.safety.get_longitudinal_allowed())
 
 
+class TestHyundaiLegacyNonSCCSafety(TestHyundaiNonSCCSafety):
+  # legacy safety mode (no counters/checksums on some messages) combined with non-SCC, e.g. Veloster
+  __test__ = True
+  SAFETY_PARAM_SP = HyundaiSafetyFlagsSP.DEFAULT
+
+  def setUp(self):
+    self.packer = CANPackerSafety("hyundai_can_generated")
+    self.safety = libsafety_py.libsafety
+    self.safety.set_current_safety_param_sp(HyundaiSafetyFlagsSP.NON_SCC | self.SAFETY_PARAM_SP)
+    self.safety.set_safety_hooks(CarParams.SafetyModel.hyundaiLegacy, 0)
+    self.safety.init_tests()
+
+
 @parameterized_class(ALL_NON_SCC_HEV_EV_COMBOS)
 class TestHyundaiNonSCCSafety_HEV_EV(TestHyundaiSafety):
 

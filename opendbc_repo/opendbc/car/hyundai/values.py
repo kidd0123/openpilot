@@ -680,6 +680,11 @@ class CAR(Platforms):
     flags=HyundaiFlags.CHECKSUM_CRC8,
     sp_flags=HyundaiFlagsSP.NON_SCC_RADAR_FCA,
   )
+  HYUNDAI_VELOSTER_NON_SCC = HyundaiNonSccPlatformConfig(
+    [HyundaiNonSccCarDocs("Hyundai Veloster Non-SCC 2019-20", min_enable_speed=5. * CV.MPH_TO_MS, car_parts=CarParts.common([CarHarness.hyundai_e]))],
+    HYUNDAI_VELOSTER.specs,
+    flags=HyundaiFlags.LEGACY | HyundaiFlags.TCU_GEARS,
+  )
 
 
 class Buttons:

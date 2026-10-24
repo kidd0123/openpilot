@@ -1976,6 +1976,17 @@
     ],
     "package": "Smart Cruise Control (SCC)"
   },
+  "Hyundai Veloster Non-SCC 2019-20": {
+    "platform": "HYUNDAI_VELOSTER_NON_SCC",
+    "make": "Hyundai",
+    "brand": "hyundai",
+    "model": "Veloster Non-SCC",
+    "year": [
+      "2019",
+      "2020"
+    ],
+    "package": "No Smart Cruise Control (Non-SCC)"
+  },
   "Jeep Grand Cherokee 2016-18": {
     "platform": "JEEP_GRAND_CHEROKEE",
     "make": "Jeep",
